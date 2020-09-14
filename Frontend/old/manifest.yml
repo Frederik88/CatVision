@@ -1,0 +1,8 @@
+---
+applications:
+- name: flask-example
+  instances: 1
+  routes:
+  - route: flask-example-infote1.apps.eu1.mindsphere.io
+  buildpack: python_buildpack
+  memory: 265MB

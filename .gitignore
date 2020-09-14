@@ -1,0 +1,19 @@
+
+# Ignore folder named 'Python/Backend/yolo-coco'
+Backend/yolo/
+
+# Ignore folder named 'Python/Backend/fasterrcnn'
+Backend/fasterrcnn/
+
+# Ignore folder named 'Python/Backend/ssd'
+Backend/ssd/
+
+# Ignore folder named 'Python/.idea'
+.idea/
+
+Backend/RaspyCamServer/venv/
+
+# Ignore folder named '__pycache__'
+Backend/__pycache__/
+Frontend/__pycache__/
+RaspberryPi/__pycache__/

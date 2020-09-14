@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<script src="{{ url_for('static', filename='js/lib/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/backendCommunication.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/CreateChart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/Chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
+
+
+
+<header>
+    <title>infoteam Object Detection</title>
+
+    <br>
+            <img id="logo" src="{{ url_for('static', filename='img/infoteam_2x_4c_cmyk_Logo.jpg') }}" width="135px">
+            <center><h1 class="tit">Nussdetektor</h1></center>
+
+            <br>
+
+    <canvas class="background"></canvas>
+    <script src="{{ url_for('static', filename='js/lib/particles.min.js') }}"></script>
+
+        <script>
+            window.onload = function() {
+                  Particles.init({
+                    selector: '.background',
+                color: ['#DA0463', '#404B69', '#DBEDF3'],
+                connectParticles: true
+                });
+            };
+
+        </script>
+</header>
+<body>
+
+<div class="container-fluid">
+    <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" id="border">
+            <span class="border border-primary">
+            <div class="btn-group-vertical">
+                <button type="button" class="btn btn-default" id="button1">YOLOv3</button>
+                <button type="button" class="btn btn-default" id="button2">Tiny YOLOv3</button>
+                <button type="button" class="btn btn-default" id="button3">Faster R-CNN</button>
+                <button type="button" class="btn btn-default" id="button4">SSD</button>
+
+                <!--<button tpye="button" class="btn btn-default" id="button5">Load Net Parameter</button>-->
+                <button tpye="button" class="btn btn-default" id="button5">Reset</button>
+                <button tpye="button" class="btn btn-default" id="button6">Daten anzeigen</button>
+            </div>
+            </span>
+        </div>
+
+
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="border">
+            <div class="container-fluid" id="stream">
+                <div class="video">
+                    <img src="{{ url_for('video_feed') }}"
+                        class="img-fluid"
+                        onerror="this.src ='{{ url_for('static', filename='img/placeholder.png') }}';">
+                </div>
+            </div>
+                
+
+            <div class="container-fluid" id="icons">
+                <div class="col-xs-4" id="item">
+                    <img src="{{ url_for('static', filename='img/walnut.png') }}" class="img-fluid" id="walnut">
+                    <p id="walNumber"> 0 </p>
+                </div>
+
+                <div class="col-xs-4" id="item">
+                    <img src="{{ url_for('static', filename='img/hazelnut.png') }}" class="img-fluid" id="hazelnut">
+                    <p id="hazNumber"> 0 </p>
+                </div>
+
+                <div class="col-xs-4" id="item">
+                    <img src="{{ url_for('static', filename='img/peanut.png') }}" class="img-fluid" id="peanut">
+                    <p id="peaNumber"> 0 </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" id="border">
+            <div class="container-fluid">
+                <div id="chartFps">
+                    <canvas id="fpsChart" width="200" height="100"></canvas>
+                </div>
+
+                <div id="chartMap">
+                    <canvas id="msChart" width="200" height="100"></canvas>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div id="motorCtrl">
+                    <div class="btn-group-horizontal">
+                        <button tpye="button" class="btn btn-secondary" id="button7">Start Motor</button>
+                        <button tpye="button" class="btn btn-secondary" id="button8">Stop Motor</button>
+                    </div> 
+                    <div class="slidecontainer" id="slider">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="pwmSlider">
+                    </div>
+                </div>      
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+
+</html>

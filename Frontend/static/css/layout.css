@@ -1,0 +1,312 @@
+/*
+body{
+  background-image: url("../img/background.png");
+  background-size:cover;
+}
+*/
+header{
+  background-color: #fff;
+  border-bottom: 1px solid #c1002b;
+}
+
+#logo{
+  float: left;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #f9f9f9;}
+
+.background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}
+
+#border{
+  border: 1px solid #c1002b;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 30px;
+  margin-top: 2%;
+}
+
+
+#peaNumber{
+  font-size: 30px;
+  color: #000000;
+}
+
+#walNumber{
+  font-size: 30px;
+  color: #000000;
+}
+
+#hazNumber{
+  font-size: 30px;
+  color: #000000;
+}
+
+
+#stream{
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#charts{
+  max-width: 50%;
+  max-height: 50%;
+}
+/*
+#chartFps{
+   margin-left: 30%;
+
+}
+
+#chartMap{
+   margin-left: 30%;
+
+}
+*/
+
+#motorCtrl{
+  text-align: center;
+
+}
+
+
+.maxNumber{
+  font-size: 30px;
+  color: #000000;
+}
+
+.slash{
+  font-size: 30px;
+  color: #000000;
+}
+
+#icons{
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
+#pGroup{
+  vertical-align: middle;
+}
+
+#item{
+  text-align: center;
+  vertical-align: middle;
+}
+
+#hazelnut{
+  padding: 15px;
+  width: 100px;
+  height: 100px;
+}
+
+#walnut{
+  padding: 15px;
+  width: 100px;
+  height: 100px;
+}
+
+#peanut{
+  padding: 15px;
+  width: 100px;
+  height: 100px;
+}
+
+#button1 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  outline: none;
+  color: black;
+  margin-top: 5%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#button2 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  outline: none;
+  color: black;
+  margin-top: 5%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#button3 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  outline: none;
+  color: black;
+  margin-top: 5%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#button4 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  outline: none;
+  color: black;
+  margin-top: 5%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#button5 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  outline: none;
+  color: black;
+  margin-top: 15%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#button6 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  color: black;
+  outline: none;
+  margin-top: 15%;
+  margin-bottom: 5%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#button7 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  color: black;
+  outline: none;
+  margin-top: 15%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#button8 {
+  background-size: 100%; /* To fill the dimensions of container (button), or */
+  background-color: Transparent;
+  background-image: url('Button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: transparent;
+  color: black;
+  outline: none;
+  margin-top: 15%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+/* Slider */
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+  margin-top: 2%;
+  margin-bottom: 5%;
+
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.video {
+  text-align: center;
+  margin-top: 5%;
+  max-width:100%;
+  max-height:100%;
+}
