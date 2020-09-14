@@ -3,7 +3,6 @@ import os
 import time
 import cv2
 
-from Backend.BoundingBox import BoundingBox
 from Backend.ObjectDetection import ObjectDetection
 
 
@@ -29,17 +28,6 @@ class Yolo(ObjectDetection):
         print('[YOLO INIT] Weights path: ', weights_path)
         print('[YOLO INIT] Config path: ', config_path)
 
-        # Init vars for tracking
-        self.__bounding_boxes = []
-
-        # Counter for detected objects
-        self.__object_one = 0
-        self.__object_two = 0
-        self.__object_three = 0
-
-        self.__detected_class = ""
-        self.__detected_conf = 0
-
         # List of colors for each object class
         # Hazelnut = red
         # Walnut = blue
@@ -55,19 +43,6 @@ class Yolo(ObjectDetection):
         print("[YOLO INIT] loading YOLO from disk...")
         self.__net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
         print("[YOLO INIT] loading YOLO finished...")
-
-    def fetch_detected_objects(self):
-        """
-        Returns a tuple containing the counters for detected objects,
-        the class of the current detected object and its confidence
-
-        :return: Tuple of obj1, obj2, obj3, class name and confidence
-        """
-        return self.__object_one, \
-               self.__object_two, \
-               self.__object_three, \
-               self.__detected_class, \
-               self.__detected_conf
 
     def forward_pass(self, image, conf, thresh, area):
         """
@@ -122,12 +97,12 @@ class Yolo(ObjectDetection):
                     # get bounding box coordinates and scale back to size of the
                     # image
                     box = detection[0:4] * np.array([W, H, W, H])
-                    (centerX, centerY, width, height) = box.astype("int")
+                    (center_x, center_y, width, height) = box.astype("int")
 
                     # use the center (x, y)-coordinates to derive the top and
                     # and left corner of the bounding box
-                    x = int(centerX - (width / 2))
-                    y = int(centerY - (height / 2))
+                    x = int(center_x - (width / 2))
+                    y = int(center_y - (height / 2))
 
                     # Append box, conf and ID to lists
                     boxes.append([x, y, int(width), int(height)])
@@ -147,39 +122,13 @@ class Yolo(ObjectDetection):
                 (x, y) = (boxes[i][0], boxes[i][1])
                 (w, h) = (boxes[i][2], boxes[i][3])
 
-                # Add the nms bounding box to bbox array
-                bbox = BoundingBox(x, y, w, h, class_ids[i], confidences[i])
-                self.__bounding_boxes.append(bbox)
-
                 idx = int(class_ids[i])
 
-                # Draw bounding boxes with label and center dot
+                # Draw bounding boxes with label
                 color = [int(c) for c in self.__class_colors[idx]]
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
-                cv2.circle(image, bbox.calc_center(), 5, color, -1, 8)
                 text = "{}: {:.4f}".format(self.__class_labels[idx], confidences[i])
                 cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                             0.5, color, 2)
-
-                # Check for ROI intersection
-                x1 = 640 // 2
-                x2 = 640 // 2
-                y1 = 0
-                y2 = 480
-                bbox.check_intersect_with_roi(x1, x2, y1, y2, area)
-
-                if bbox.get_counted_status():
-                    print("Bbox get counted status: ",bbox.get_counted_status())
-                    self.__detected_class = bbox.get_class_name()
-                    self.__detected_conf = bbox.get_confidence()
-
-                    if bbox.get_box_id() == 0:
-                        self.__object_one = self.__object_one + 1
-
-                    if bbox.get_box_id() == 1:
-                        self.__object_two = self.__object_two + 1
-
-                    if bbox.get_box_id() == 2:
-                        self.__object_three = self.__object_three + 1
 
         return image
