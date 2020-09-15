@@ -142,20 +142,6 @@ def trigger_ssd_processing():
     return 'OK'
 
 
-# Load parameters from nets
-#@app.route('/button5')
-#def load_net_parameter():
-#    """
-#    Trigger loading of net parameters with specific
-#    routing url. Linked to Load Net Parameter Button
-#    displayed in the index.html.
-
-#    :return: OK message
-#    """
-#    Stream.load_net_parameters()
-
-#    return 'OK'
-
 
 # Start date fetching
 @app.route('/button6')
@@ -173,16 +159,6 @@ def data_fetching():
     global fps_log
     global ms_log
     global detected_log
-    #check_writing = not check_writing
-
-    #if check_writing:
-    #    fps_log = LogData("FPS")
-    #    ms_log = LogData("MS")
-    #    detected_log = LogData("Detection")
-    #else:
-    #    fps_log.close_file()
-    #    ms_log.close_file()
-    #    detected_log.close_file()
 
     return 'OK'
 

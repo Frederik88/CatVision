@@ -44,7 +44,7 @@ class Yolo(ObjectDetection):
         self.__net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
         print("[YOLO INIT] loading YOLO finished...")
 
-    def forward_pass(self, image, conf, thresh, area):
+    def forward_pass(self, image, conf, thresh):
         """
         Performs a forward pass through the net of the chosen object detection
         algorithm. A blob gets created from the input image and gets passed

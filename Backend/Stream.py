@@ -6,9 +6,6 @@ import types
 sys.path.append('../')
 
 from Backend.Yolo import Yolo
-from Backend.FasterRCNN import FasterRCNN
-from Backend.TinyYolo import TinyYolo
-from Backend.SSD import SSD
 from Backend.FrameShow import FrameShow
 
 
@@ -34,9 +31,6 @@ class Stream:
         self.__class_confidence = 0
 
         self.__yolo = types.SimpleNamespace
-        self.__ssd = types.SimpleNamespace
-        self.__rcnn = types.SimpleNamespace
-        self.__tiny_yolo = types.SimpleNamespace
 
         self.__frame_show = types.SimpleNamespace
 
@@ -46,9 +40,6 @@ class Stream:
         their respective models.
         """
         self.__yolo = Yolo()
-        self.__ssd = SSD()
-        self.__rcnn = FasterRCNN()
-        self.__tiny_yolo = TinyYolo()
 
     def __get_class_name(self):
         return self.__class_name
@@ -56,40 +47,9 @@ class Stream:
     def __get_class_conf(self):
         return self.__class_confidence
 
-    def __get_fps(self):
-        return self.__fps
-
-    def __get_seconds(self):
-        return round(self.__seconds, 2)
-
-    def __get_obj1(self):
-        return self.__counter_obj_one
-
-    def __set_obj1(self, obj1):
-        self.__counter_obj_one = obj1
-
-    def __get_obj2(self):
-        return self.__counter_obj_two
-
-    def __set_obj2(self, obj2):
-        self.__counter_obj_two = obj2
-
-    def __get_obj3(self):
-        return self.__counter_obj_three
-
-    def __set_obj3(self, obj3):
-        self.__counter_obj_three = obj3
-
     # Properties
-    frames_per_second = property(__get_fps)
-    ms_second = property(__get_seconds)
-
     class_name = property(__get_class_name)
     class_conf = property(__get_class_conf)
-
-    obj1 = property(__get_obj1, __set_obj1)
-    obj2 = property(__get_obj2, __set_obj2)
-    obj3 = property(__get_obj3, __set_obj3)
 
     def fetch_frame_data(self):
         """
@@ -123,47 +83,14 @@ class Stream:
         :return: processed image with drawn performance values and roi line.
         """
         self.__num_frames = self.__num_frames + 1
-        overlay = image.copy()
-        area = 2
         if check_yolo:
             try:
-                area = 15
-                self.__yolo.forward_pass(image, 0.5, 0.3, area)
+                self.__yolo.forward_pass(image, 0.5, 0.3)
                 [self.__counter_obj_one, self.__counter_obj_two, self.__counter_obj_three,
                  self.__class_name, self.__class_confidence] \
                     = self.__yolo.fetch_detected_objects()
             except:
                 print('YOLO Net Parameter not loaded')
-
-        if check_tiny_yolo:
-            try:
-                area = 15
-                self.__tiny_yolo.forward_pass(image, 0.5, 0.3, area)
-                [self.__counter_obj_one, self.__counter_obj_two, self.__counter_obj_three,
-                 self.__class_name, self.__class_confidence] \
-                    = self.__tiny_yolo.fetch_detected_objects()
-            except:
-                print('TINY YOLO Net Parameter not loaded')
-
-        if check_rcnn:
-            try:
-                area = 15
-                self.__rcnn.forward_pass(image, 0.5, 0.3, area)
-                [self.__counter_obj_one, self.__counter_obj_two, self.__counter_obj_three,
-                 self.__class_name, self.__class_confidence]\
-                    = self.__rcnn.fetch_detected_objects()
-            except:
-                print('FASTER R-CNN Net Parameter not loaded')
-
-        if check_ssd:
-            try:
-                area = 15
-                self.__ssd.forward_pass(image, 0.5, 0.3, area)
-                [self.__counter_obj_one, self.__counter_obj_two, self.__counter_obj_three,
-                 self.__class_name, self.__class_confidence]\
-                    = self.__ssd.fetch_detected_objects()
-            except:
-                print('SSD Net Parameter not loaded')
 
         end_time = time.time()
         self.__seconds = (end_time - self.__start_time)  # * 10**3
@@ -176,15 +103,6 @@ class Stream:
         cv2.putText(image, str("FPS: %.0f" % self.__fps), (30, 450), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (0, 0, 255), 2, cv2.LINE_AA)
 
-        x1 = 640 // 2
-        x2 = 640 // 2
-        y1 = 0
-        y2 = 480
-
-        # Draw ROI line for tracking
-        cv2.line(overlay, (x1, y1), (x2, y2), (0, 255, 0), area)
-        alpha = 0.4
-        image = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
 
         image = cv2.imencode('.jpg', image)[1].tobytes()
 
