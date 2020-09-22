@@ -3,7 +3,7 @@ import os
 import time
 import cv2
 
-from Backend.ObjectDetection import ObjectDetection
+from ObjectDetection import ObjectDetection
 
 
 class Yolo(ObjectDetection):
@@ -20,9 +20,9 @@ class Yolo(ObjectDetection):
         print('[YOLO INIT] Setting paths ')
         path = os.path.dirname(os.path.abspath(__file__))
         yolo_path = path + '\yolo'
-        labels_path = yolo_path + '\obj.names'
-        weights_path = yolo_path + '\yolov3.weights'
-        config_path = yolo_path + '\yolov3.cfg'
+        labels_path = yolo_path + '\coco.names'
+        weights_path = yolo_path + '\yolov3-spp.weights'
+        config_path = yolo_path + '\yolov3-spp.cfg'
 
         print('[YOLO INIT] Current dir: ', path)
         print('[YOLO INIT] Weights path: ', weights_path)
@@ -33,6 +33,7 @@ class Yolo(ObjectDetection):
         # Walnut = blue
         # Peanut = green
         self.__class_labels = open(labels_path).read().strip().split('\n')
+        print(self.__class_labels)
         self.__class_colors = [
             [255, 0, 0],
             [0, 255, 0],
@@ -41,7 +42,7 @@ class Yolo(ObjectDetection):
 
         # Load Yolo detector from darknet
         print("[YOLO INIT] loading YOLO from disk...")
-        self.__net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
+        self.__net = cv2.dnn.readNet(config_path, weights_path)
         print("[YOLO INIT] loading YOLO finished...")
 
     def forward_pass(self, image, conf, thresh):
@@ -125,7 +126,7 @@ class Yolo(ObjectDetection):
                 idx = int(class_ids[i])
 
                 # Draw bounding boxes with label
-                color = [int(c) for c in self.__class_colors[idx]]
+                color = [int(c) for c in self.__class_colors[0]]
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
                 text = "{}: {:.4f}".format(self.__class_labels[idx], confidences[i])
                 cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,

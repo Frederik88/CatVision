@@ -1,19 +1,23 @@
 
 # Ignore folder named 'Python/Backend/yolo-coco'
-Backend/yolo/
+catvision-flask/yolo/
 
 # Ignore folder named 'Python/Backend/fasterrcnn'
-Backend/fasterrcnn/
+catvision-flask/fasterrcnn/
 
 # Ignore folder named 'Python/Backend/ssd'
-Backend/ssd/
+catvision-flask/ssd/
 
 # Ignore folder named 'Python/.idea'
 .idea/
 
-Backend/RaspyCamServer/venv/
+Images/*
+
+catvision-flask/RaspyCamServer/venv/
 
 # Ignore folder named '__pycache__'
-Backend/__pycache__/
+catvision-flask/__pycache__/
 Frontend/__pycache__/
 RaspberryPi/__pycache__/
+/.metadata/
+.gitignore

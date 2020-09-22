@@ -7,11 +7,16 @@ import json
 import types
 import time
 import cv2
+import chardet
 import io
+from DatabaseTransaction import DatabaseTransaction
+from Yolo import Yolo;
 from PIL import Image
 import numpy as np
 
 app = Flask(__name__)
+DatabaseTransaction = DatabaseTransaction();
+Yolo = Yolo();
 
 
 @app.route('/api/v1/transfer')
@@ -27,14 +32,19 @@ def transfer_capture():
         )
     
     img_name = time.strftime("%Y%m%d-%H%M%S") + '.jpeg'
+    path = 'F:\\20200914_CatVision_TechDay\\CatVision\Images\\' + img_name
     img = np.array(Image.open(io.BytesIO(r.content)))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
-    cv2.imwrite(img_name, img)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    
+    img = Yolo.forward_pass(img, 0.5, 0.3) 
+    
+    cv2.imwrite(path, img)
+    DatabaseTransaction.save_img_to_db(img_name, time.strftime("%Y%m%d-%H%M%S"), path)
     
     return image
 
 
 
-port = os.getenv('PORT', '8080')
+port = os.getenv('PORT', '5000')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(port), threaded=True)

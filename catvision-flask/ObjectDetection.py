@@ -9,9 +9,5 @@ class ObjectDetection(ABC):
         super().__init__()
 
     @abstractmethod
-    def forward_pass(self, image, conf, thresh, area):
-        pass
-
-    @abstractmethod
-    def fetch_detected_objects(self):
+    def forward_pass(self, image, conf, thresh):
         pass
