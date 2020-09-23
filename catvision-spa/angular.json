@@ -119,6 +119,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "catvision-spa"
+    }
+  },
+  "defaultProject": "catvision-spa",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "css"
+    }
+  }
 }
