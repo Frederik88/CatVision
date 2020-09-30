@@ -16,14 +16,16 @@ public class ImageModel {
     private String name;
     private String timestamp;
     private String imgPath;
+    private boolean detection;
     
 
-    public ImageModel(long id, String name, String timestamp, String imgPath) {
+    public ImageModel(long id, String name, String timestamp, String imgPath, boolean detection) {
         super();
-        this.id = id;
-        this.name = name;
-        this.timestamp = timestamp;
-        this.imgPath = imgPath;
+        this.setId(id);
+        this.setName(name);
+        this.setTimestamp(timestamp);
+        this.setImgPath(imgPath);
+        this.setDetection(detection);
     }
     
     public ImageModel() {
@@ -62,8 +64,22 @@ public class ImageModel {
         this.imgPath = imgPath;
     }
 
+	public boolean getDetection() {
+		return detection;
+	}
+
+	public void setDetection(boolean detection) {
+		this.detection = detection;
+	}
+    
     @Override
     public String toString() {
-        return "Image [id=" + id + ", name=" + name + ", timestamp=" + timestamp + ", ImgPath=\" + ImgPath + \"]";
+    	return "Image [id=" + id + ","
+				+ " name=" + name + ","
+				+ " timestamp=" + timestamp + ","
+				+ " ImgPath=" + imgPath + ","
+				+ " detection=" + detection;
     }
+
+
 }

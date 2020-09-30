@@ -1,0 +1,28 @@
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-1">
+    <img class="center" src='assets/images/9345496_0.jpg' alt="Card image cap">
+  </header>
+  <div class="row text-center mb-1 mt-1">
+    <div class="col-lg-8">
+      <button type="button" class="btn btn-warning" (click)='fetchFilteredImages(true)'>True</button>
+    </div>
+    <div class="col-lg-1">
+      <button type="button" class="btn btn-info" (click)='fetchFilteredImages(false)'>False</button>
+    </div>
+  </div>
+
+  <!-- Page Features -->
+  <div class="container">
+    <div class="row text-center">
+      <div *ngFor="let image of images">
+        <app-image [image]="image"></app-image>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- /.row -->
+<!-- /.container -->

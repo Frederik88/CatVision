@@ -1,7 +1,7 @@
-<div class="col-lg-3 col-md-6 mb-4">
+<!--<div class="col-lg-3 col-md-6 mb-4">
     <div class="card h-100">
-      <img class="card-img-top" src="http://placehold.it/500x325" alt="">
- <div class="col-lg-12 col-md-6 mb-4">
+      <img class="card-img-top" [src]='imgUrl' alt="">
+ <div class="col-lg-6 col-md-6 mb-4">
     <div class="card h-100">
       <div class="card-body">
         <h4 class="card-title">Card title</h4>
@@ -12,3 +12,20 @@
       </div>
     </div>
   </div>
+-->
+<div class="card mr-3 ml-5 mb-2" style="width: 18rem;">
+  <img class="card-img-top" [src]='imgUrl' (click)='openPopup()' alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{image.timestamp}}</h5>
+    <div class="row">
+      <div class="col-lg-6">
+        <p class="card-text">Name: </p>
+        <p class="card-text">Detection: </p>
+      </div>
+      <div class="col-lg-6">
+        <p class="card-text">{{image.name}}</p>
+        <p class="card-text">{{image.detection}}</p>
+      </div>
+    </div>
+  </div>
+</div>

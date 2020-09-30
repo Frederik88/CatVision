@@ -35,11 +35,20 @@ def transfer_capture():
     path = 'F:\\20200914_CatVision_TechDay\\CatVision\Images\\' + img_name
     img = np.array(Image.open(io.BytesIO(r.content)))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    text = ""
+    detection = False
     
-    img = Yolo.forward_pass(img, 0.5, 0.3) 
+    img, label, conf = Yolo.forward_pass(img, 0.5, 0.3)
+    
+    if(conf == 0 or label != 'cat'):
+        text = "None"
+        detection = False
+    else:
+        text = "{}: {:.4f}".format('Cat', conf)
+        detection = True
     
     cv2.imwrite(path, img)
-    DatabaseTransaction.save_img_to_db(img_name, time.strftime("%Y%m%d-%H%M%S"), path)
+    DatabaseTransaction.save_img_to_db(path, text, time.strftime("%Y%m%d-%H%M%S"), detection)
     
     return image
 

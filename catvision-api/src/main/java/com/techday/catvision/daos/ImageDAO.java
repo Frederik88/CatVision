@@ -26,18 +26,25 @@ public class ImageDAO implements Dao<ImageDto> {
 	@Autowired
 	ModelMapper modelmapper;
 
-	private List<ImageModel> imageModelList = new ArrayList<>();
-
 	@Override
 	public Optional<ImageDto> get(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return Optional.ofNullable(
+				convertToDto(imageRepository.findById(id).get())
+				);
 	}
 
 	@Override
 	public Collection<ImageDto> getAll() {
 		return imageRepository.findAll().stream()
 				.filter(Objects::nonNull)
+				.map(image -> this.convertToDto(image))
+				.collect(Collectors.toList());
+	}
+	
+	public Collection<ImageDto> filterByDetection(boolean value) {
+		return imageRepository.findAll().stream()
+				.filter(Objects::nonNull)
+				.filter(image -> image.getDetection() == value)
 				.map(image -> this.convertToDto(image))
 				.collect(Collectors.toList());
 	}

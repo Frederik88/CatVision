@@ -33,10 +33,9 @@ class Yolo(ObjectDetection):
         # Walnut = blue
         # Peanut = green
         self.__class_labels = open(labels_path).read().strip().split('\n')
-        print(self.__class_labels)
+        self.__confidence = 0
+        self.__label = ""
         self.__class_colors = [
-            [255, 0, 0],
-            [0, 255, 0],
             [0, 0, 255]
         ]
 
@@ -63,6 +62,8 @@ class Yolo(ObjectDetection):
         :return: image with drawn bounding boxes
         """
         (H, W) = image.shape[:2]
+        self.__confidence = 0
+        self.__label = ""
 
         # get output layer from net
         ln = self.__net.getLayerNames()
@@ -124,12 +125,14 @@ class Yolo(ObjectDetection):
                 (w, h) = (boxes[i][2], boxes[i][3])
 
                 idx = int(class_ids[i])
-
+                self.__confidence = confidences[i]
+                self.__label = self.__class_labels[idx]
+                
                 # Draw bounding boxes with label
                 color = [int(c) for c in self.__class_colors[0]]
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
                 text = "{}: {:.4f}".format(self.__class_labels[idx], confidences[i])
                 cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                             0.5, color, 2)
-
-        return image
+        
+        return image, self.__label, self.__confidence
