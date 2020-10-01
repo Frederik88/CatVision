@@ -21,7 +21,7 @@ Yolo = Yolo();
 
 @app.route('/api/v1/transfer')
 def transfer_capture():
-    r =requests.get('http://192.168.178.41:8080/api/capture')
+    r =requests.get('http://localhost:8081/api/capture')
     r.status_code
     r.headers['Content-Type']
     
