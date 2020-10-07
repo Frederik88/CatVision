@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +51,12 @@ public class ImageController {
 	ImageDAO imageDAO;
 
 	private static Logger logger = Logger.getLogger("ImageController.java");
+	
+	//@PostConstruct
+	public Collection<ImageDto> deleteExpiredEntriesOnStartUp(){
+		return imageDAO.deleteOlderThanWeek();
+	}
+	
 
 	@GetMapping("/images")
 	public Collection<ImageDto> getImages() {
@@ -73,6 +81,17 @@ public class ImageController {
 		Collections.reverse(images);
 		return images;
 	}
+	
+	@GetMapping("/image/date/{id}")
+	public void checkDate(@PathVariable("id") long id) {
+		imageDAO.checkForDeletion(id);
+	}
+	
+	@DeleteMapping("/image/delete/{id}")
+	public void delete(@PathVariable("id") long id) {
+		imageDAO.checkForDeletion(id);
+		logger.info("Deleted image with id " + id);
+	}
 
 	@GetMapping(value = "/jpeg/{id}", produces = "image/jpg")
 	public ResponseEntity<byte[]> getImageJpeg(@PathVariable("id") long id) throws IOException {
@@ -87,4 +106,6 @@ public class ImageController {
         return responseEntity;
 
 	}
+	
+	
 }
