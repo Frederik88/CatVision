@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: catvision-pod
+  labels:
+    name: catvision-app
+spec:
+  containers:
+  - name: catvision-sql
+    image: catvision/sql:1.0
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3306
+  - name: catvision-api
+    image: catvision/api:1.0
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080
+  - name: catvision-gateway
+    image: catvision/gateway:1.0
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8081

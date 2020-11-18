@@ -1,16 +1,14 @@
 package com.techday.catvision.daos;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +26,8 @@ public class ImageDAO implements Dao<ImageDto> {
 
 	@Autowired
 	ModelMapper modelmapper;
+	
+	private static final Logger logger = LogManager.getLogger("ImageController");
 
 	@Override
 	public Optional<ImageDto> get(long id) {
@@ -41,7 +41,9 @@ public class ImageDAO implements Dao<ImageDto> {
 		return imageRepository.findAll().stream()
 				.filter(Objects::nonNull)
 				.map(image -> this.convertToDto(image))
+				.peek(image -> logger.info(image.toString()))
 				.collect(Collectors.toList());
+				
 	}
 	
 	public Collection<ImageDto> filterByDetection(boolean value) {
@@ -49,6 +51,7 @@ public class ImageDAO implements Dao<ImageDto> {
 				.filter(Objects::nonNull)
 				.filter(image -> image.getDetection() == value)
 				.map(image -> this.convertToDto(image))
+				.peek(image -> logger.info("Filtered by following images: {}",image.toString()))
 				.collect(Collectors.toList());
 	}
 	
@@ -56,7 +59,8 @@ public class ImageDAO implements Dao<ImageDto> {
 		Collection<ImageDto> collection = filterOlderThanWeek();
 		Iterator<ImageDto> iter = collection.iterator();
 		while(iter.hasNext()) {
-			delete(iter.next());
+			logger.info("Deleted image with id {}", iter.next().getId());
+			delete(iter.next().getId());
 		}
 		
 		return collection;
@@ -64,7 +68,7 @@ public class ImageDAO implements Dao<ImageDto> {
 	
 	
 	
-	public void checkForDeletion(long id) {
+	public boolean checkForDeletion(long id) {
 		Optional<ImageDto> img = Optional.ofNullable(
 				convertToDto(imageRepository.findById(id).get())
 				);
@@ -75,8 +79,10 @@ public class ImageDAO implements Dao<ImageDto> {
 		boolean checkForDeletion = Utility.checkDateOlderThanDays(currentDate, laterDate, 7);
 		
 		if(checkForDeletion) {
-			delete(img.get());
+			return true;
 		}
+		
+		return false;
 	}
 
 	@Override
@@ -92,9 +98,8 @@ public class ImageDAO implements Dao<ImageDto> {
 	}
 
 	@Override
-	public void delete(ImageDto t) {
-		ImageModel image = convertToEntity(t);
-		imageRepository.deleteById(image.getId());
+	public void delete(long id) {
+		imageRepository.deleteById(id);
 		
 	}
 	

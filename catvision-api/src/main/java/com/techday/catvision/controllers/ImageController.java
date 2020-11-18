@@ -1,35 +1,26 @@
 package com.techday.catvision.controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.apache.commons.io.IOUtils;
@@ -37,7 +28,6 @@ import org.modelmapper.ModelMapper;
 
 import com.techday.catvision.daos.ImageDAO;
 import com.techday.catvision.dtos.ImageDto;
-import com.techday.catvision.repositories.ImageRepository;
 
 @RestController
 @RequestMapping("/api/v1/image")
@@ -49,10 +39,8 @@ public class ImageController {
 
 	@Autowired
 	ImageDAO imageDAO;
-
-	private static Logger logger = Logger.getLogger("ImageController.java");
 	
-	//@PostConstruct
+	@PostConstruct
 	public Collection<ImageDto> deleteExpiredEntriesOnStartUp(){
 		return imageDAO.deleteOlderThanWeek();
 	}
@@ -69,14 +57,14 @@ public class ImageController {
 	}
 	
 	@GetMapping("/images/latest")
-	public ArrayList<ImageDto> getLatestImages(){
+	public List<ImageDto> getLatestImages(){
 		ArrayList<ImageDto> images = new ArrayList<>(imageDAO.getAll());
 		Collections.reverse(images);
 		return images;
 	}
 	
 	@GetMapping("/images/detection/{value}")
-	public ArrayList<ImageDto> filterByDetection(@PathVariable boolean value){
+	public List<ImageDto> filterByDetection(@PathVariable boolean value){
 		ArrayList<ImageDto> images = new ArrayList<>(imageDAO.filterByDetection(value));
 		Collections.reverse(images);
 		return images;
@@ -89,8 +77,7 @@ public class ImageController {
 	
 	@DeleteMapping("/image/delete/{id}")
 	public void delete(@PathVariable("id") long id) {
-		imageDAO.checkForDeletion(id);
-		logger.info("Deleted image with id " + id);
+		imageDAO.delete(id);
 	}
 
 	@GetMapping(value = "/jpeg/{id}", produces = "image/jpg")
