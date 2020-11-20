@@ -21,3 +21,4 @@ Frontend/__pycache__/
 RaspberryPi/__pycache__/
 /.metadata/
 .gitignore
+jenkins.war
