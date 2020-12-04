@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CatvisionGatewayApplicationTests {
 
-	//@Test
+	@Test
 	void contextLoads() {
 		boolean test = true;
 		assertThat(test).isTrue();
