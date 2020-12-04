@@ -1,15 +1,19 @@
 package com.example.demo;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+import com.techday.catvision.CatvisionGatewayApplication;
+
+@SpringBootTest(classes = CatvisionGatewayApplication.class)
 class CatvisionGatewayApplicationTests {
 
+
 	@Test
-	void contextLoads() {
-		boolean test = true;
+	public void sampleTest(){
+		Boolean test = true;
+
 		assertThat(test).isTrue();
 	}
 
